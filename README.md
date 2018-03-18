@@ -34,3 +34,14 @@ JVMClassLoader
        private static boolean flag = true; (准备阶段默认值为false,初始化之后的正确赋值为true)
     }
    </code></pre>
+  ### 什么情况初始化？
+   * 首先说一个知识点，Java 程序对类的使用分两种
+   * 主动使用（初始化）
+   * 被动使用
+   > 主动使用的场景如下：(必须首次主动使用才会初始化)
+   > * 创建类的实例
+		 > * 访问某个类或者接口的静态变量，或者对该静态变量赋值（A.nums=0 等等）
+		 > * 调用类的静态方法(A.method())
+		 > * 反射(如 Class.forName(com.kyrie.peng.Test))
+		 > * 初始化一个类的子类。
+		 > * Java虚拟机启动时被标明为启动类的类(Java Test,比如这个类里面存在main方法)
