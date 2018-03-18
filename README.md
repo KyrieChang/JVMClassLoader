@@ -45,3 +45,27 @@ JVMClassLoader
    > * 反射(如 Class.forName(com.kyrie.peng.Test))
    > * 初始化一个类的子类
    > * Java虚拟机启动时被标明为启动类的类(Java Test,比如这个类里面存在main方法)
+   
+## 类加载器（父委托机制）
+ ### 一、虚拟机自带的加载器
+   * 根类加载器(Bootstrap），使用C++编写，java程序员无法在程序中获取
+   > 该类没有父类加载器，它是负责加载虚拟机的核心类库，比如java.lang.*等
+   <pre><code>
+   Class clazz = Class.forName("java.lang.String");
+   System.out.println(clazz.getClassLoader()); // 打印结果为 null，这个是根类加载器加载的，是得不到这个加载器的
+   </code></pre>
+   * 扩展类加载器（Extension），使用java代码实现
+   > 该类的父加载器为根类加载器，它是从java.ext.dir 系统属性所指定的目录中加载类库，或者从jdk的安装目录的jre\lib\ext
+   子目录（拓展目录）下加载类库，如果用户创建的JAR 文件放在这个目录下，也会自动由扩展类加载器加载。拓展类加载器是纯java类
+   ，是java.lang.ClassLoader 的子类。
+   * 系统类加载器（应用类加载器System）,使用java 代码实现
+   > 它的父加载器是拓展类加载器。它从环境变量classpath或者系统属性java.class.path 所指定的目录中加载类，它是用户自定义的类加载
+   器的父加载器，系统类加载器是纯java 类，是java.lang.Classloader类的子类.
+ ### 二、自定义类加载器
+   * java.lang.ClassLoader 的子类
+   > * java 提供了抽象类java.lang.ClassLoader,所有的自定义的类加载器应该继承Classloader
+   > * 1、当生成了一个自定义的类加载器实例时，如果没有指定它的父加载器，那么系统类加载器就成为它的父类加载器（默认构造方法）
+   > * 2、当生成了一个自定义加载器实例时，如果指定了它的父加载器，那么指定的加载器就成为新new出来的加载器的父加载器（有参数的构造方法）
+   > * 关系图如下：
+ 
+   
